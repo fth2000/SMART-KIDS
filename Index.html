@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Kids - عالم الأطفال الذكي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .bg-custom-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #f472b6 100%);
+        }
+        .kids-card {
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+        .kids-card:active {
+            transform: scale(0.95);
+        }
+        /* رسومات خلفية هندسية مبهجة للأطفال بدلاً من الإيموجي */
+        .bg-shapes {
+            position: relative;
+            overflow: hidden;
+        }
+        .bg-shapes::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .bg-shapes::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 150px;
+            height: 150px;
+            background: rgba(56, 189, 248, 0.2);
+            border-radius: 35%;
+            transform: rotate(45deg);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-sky-50 font-sans flex justify-center items-center min-h-screen m-0 p-0">
+
+    <!-- حاوية التطبيق الأساسية -->
+    <div class="w-full max-w-md bg-white shadow-2xl rounded-3xl overflow-hidden flex flex-col h-screen sm:h-[95vh] border-4 border-pink-200 bg-shapes">
+        
+        <!-- الهيدر العلوي -->
+        <header class="bg-custom-gradient text-white p-4 text-center shadow-md flex justify-between items-center relative z-10">
+            <div class="text-right">
+                <h1 class="text-base font-bold flex items-center"><i class="fa-solid fa-child-reaching ml-1 text-yellow-200"></i> Smart Kids</h1>
+                <p class="text-[11px] text-pink-100">روضة الأطفال الذكية والمرحة</p>
+            </div>
+            <button onclick="goHome()" class="bg-white/20 p-2 rounded-full text-white text-xs hover:bg-white/30 transition"><i class="fa-solid fa-house"></i></button>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="p-4 flex-1 overflow-y-auto space-y-3 relative z-10">
+            
+            <!-- الشاشة الرئيسية: الأزرار الثلاثة الأولى -->
+            <div id="main-menu" class="space-y-3 pt-4">
+                <div class="text-center pb-2">
+                    <h2 class="text-sm font-bold text-gray-800">أهلاً بكم في بوابة الروضة</h2>
+                    <p class="text-[11px] text-gray-400">اختر القسم المناسب للبدء</p>
+                </div>
+                
+                <button onclick="showPanel('parent')" class="w-full py-4 bg-gradient-to-r from-sky-400 to-sky-500 kids-card text-white shadow-md font-bold flex items-center justify-between px-5">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="bg-white/20 p-2.5 rounded-xl text-lg"><i class="fa-solid fa-house-user"></i></span>
+                        <div class="text-right">
+                            <span class="block text-sm">فضاء الأولياء</span>
+                            <span class="text-[10px] text-sky-100 font-normal">متابعة تقدم الطفل والوجبات</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-angles-left text-sky-200"></i>
+                </button>
+
+                <button onclick="showPanel('admin')" class="w-full py-4 bg-gradient-to-r from-pink-400 to-pink-500 kids-card text-white shadow-md font-bold flex items-center justify-between px-5">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="bg-white/20 p-2.5 rounded-xl text-lg"><i class="fa-solid fa-user-shield"></i></span>
+                        <div class="text-right">
+                            <span class="block text-sm">إدارة الروضة</span>
+                            <span class="text-[10px] text-pink-100 font-normal">التسيير الشامل والمالي</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-angles-left text-pink-200"></i>
+                </button>
+
+                <button onclick="showPanel('teacher')" class="w-full py-4 bg-gradient-to-r from-indigo-400 to-indigo-500 kids-card text-white shadow-md font-bold flex items-center justify-between px-5">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="bg-white/20 p-2.5 rounded-xl text-lg"><i class="fa-solid fa-chalkboard-user"></i></span>
+                        <div class="text-right">
+                            <span class="block text-sm">لوحة المعلمين</span>
+                            <span class="text-[10px] text-indigo-100 font-normal">الملاحظات والتمارين الذكية</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-angles-left text-indigo-200"></i>
+                </button>
+            </div>
+
+            <!-- 1. واجهة فضاء الأولياء (مخفية افتراضياً) -->
+            <div id="panel-parent" class="space-y-3 hidden">
+                <div class="bg-white border-2 border-sky-200 p-3 rounded-2xl space-y-2 shadow-sm">
+                    <h3 class="font-bold text-sky-800 text-xs flex items-center"><i class="fa-solid fa-id-card ml-1 text-sky-500"></i> بحث برقم الهاتف واسم الطفل</h3>
+                    <input type="text" id="p-child-name" placeholder="اسم الطفل ثلاثي" class="w-full p-2 border-2 border-sky-100 rounded-xl text-xs bg-sky-50/50">
+                    <input type="tel" id="p-phone" placeholder="رقم الهاتف" class="w-full p-2 border-2 border-sky-100 rounded-xl text-xs bg-sky-50/50">
+                    <button onclick="accessParentDashboard()" class="w-full py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-bold shadow">عرض تقارير طفلي</button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="bg-gradient-to-br from-sky-400 to-sky-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card"><i class="fa-solid fa-utensils text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">الوجبات اليومية</span></div>
+                    <div class="bg-gradient-to-br from-pink-400 to-pink-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card"><i class="fa-solid fa-calendar-days text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">الرزنامة والوقت</span></div>
+                    <div class="bg-gradient-to-br from-pink-400 to-pink-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card"><i class="fa-solid fa-file-invoice-dollar text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">متابعة الفواتير</span></div>
+                    <div class="bg-gradient-to-br from-sky-400 to-sky-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card"><i class="fa-solid fa-chart-line text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">التقييم والتقدم</span></div>
+                </div>
+
+                <div id="parent-result" class="space-y-2 pt-1"></div>
+            </div>
+
+            <!-- 2. واجهة إدارة الروضة (مخفية افتراضياً) -->
+            <div id="panel-admin" class="space-y-3 hidden">
+                <div id="admin-login-box" class="bg-white border-2 border-pink-200 p-4 rounded-3xl space-y-3 text-center shadow-sm">
+                    <div class="text-pink-500 text-3xl"><i class="fa-solid fa-shield-cat"></i></div>
+                    <input type="password" id="admin-pin" placeholder="••••" class="w-full p-2.5 border-2 border-pink-100 rounded-2xl text-xs bg-pink-50/50 text-center tracking-widest text-lg font-bold">
+                    <button onclick="verifyAdminPin()" class="w-full py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-xl text-xs font-bold shadow">دخول الإدارة</button>
+                </div>
+
+                <div id="admin-sub-content" class="space-y-3 hidden">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div onclick="toggleForm('form-meal')" class="bg-gradient-to-br from-pink-400 to-pink-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card cursor-pointer"><i class="fa-solid fa-utensils text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">إدارة الوجبات</span></div>
+                        <div onclick="toggleForm('form-bill')" class="bg-gradient-to-br from-sky-400 to-sky-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card cursor-pointer"><i class="fa-solid fa-file-invoice text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">تسديد الفواتير</span></div>
+                        <div onclick="toggleForm('form-sch')" class="bg-gradient-to-br from-sky-400 to-sky-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card cursor-pointer"><i class="fa-solid fa-calendar text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">رزنامة الأوقات</span></div>
+                        <div onclick="alert('قسم الأفواج والنشاطات الترفيهية')" class="bg-gradient-to-br from-pink-400 to-pink-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card cursor-pointer"><i class="fa-solid fa-puzzle-piece text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">الأفواج واللعب</span></div>
+                    </div>
+
+                    <div id="form-meal" class="bg-white border-2 border-pink-100 p-3 rounded-2xl space-y-2 hidden shadow-sm">
+                        <h4 class="font-bold text-xs text-pink-700">إضافة وجبة جديدة</h4>
+                        <input type="text" id="meal-day" placeholder="اليوم (مثال: الأحد)" class="w-full p-2 border rounded-xl text-xs bg-pink-50/30">
+                        <input type="text" id="meal-desc" placeholder="الوجبة" class="w-full p-2 border rounded-xl text-xs bg-pink-50/30">
+                        <button onclick="saveData('meals', {day: document.getElementById('meal-day').value, desc: document.getElementById('meal-desc').value})" class="w-full py-2 bg-pink-500 text-white rounded-xl text-xs font-bold">حفظ بالسحابة</button>
+                    </div>
+                    <div id="form-bill" class="bg-white border-2 border-sky-100 p-3 rounded-2xl space-y-2 hidden shadow-sm">
+                        <h4 class="font-bold text-xs text-sky-700">تسجيل فاتورة</h4>
+                        <input type="text" id="bill-name" placeholder="اسم الطفل / الولي" class="w-full p-2 border rounded-xl text-xs bg-sky-50/30">
+                        <input type="text" id="bill-amt" placeholder="المبلغ والشهر" class="w-full p-2 border rounded-xl text-xs bg-sky-50/30">
+                        <button onclick="saveData('bills', {name: document.getElementById('bill-name').value, details: document.getElementById('bill-amt').value, status: 'مدفوع'})" class="w-full py-2 bg-sky-500 text-white rounded-xl text-xs font-bold">حفظ بالسحابة</button>
+                    </div>
+                    <div id="form-sch" class="bg-white border-2 border-sky-100 p-3 rounded-2xl space-y-2 hidden shadow-sm">
+                        <h4 class="font-bold text-xs text-sky-700">إضافة وقت للرزنامة</h4>
+                        <input type="text" id="sch-time" placeholder="الوقت" class="w-full p-2 border rounded-xl text-xs bg-sky-50/30">
+                        <input type="text" id="sch-act" placeholder="النشاط" class="w-full p-2 border rounded-xl text-xs bg-sky-50/30">
+                        <button onclick="saveData('schedules', {time: document.getElementById('sch-time').value, activity: document.getElementById('sch-act').value})" class="w-full py-2 bg-sky-500 text-white rounded-xl text-xs font-bold">حفظ بالسحابة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. لوحة المعلمين (مخفية افتراضياً) -->
+            <div id="panel-teacher" class="space-y-3 hidden">
+                <div id="teacher-login-box" class="bg-white border-2 border-indigo-200 p-4 rounded-3xl space-y-3 text-center shadow-sm">
+                    <div class="text-indigo-500 text-3xl"><i class="fa-solid fa-chalkboard"></i></div>
+                    <input type="password" id="teacher-pin" placeholder="••••" class="w-full p-2.5 border-2 border-indigo-100 rounded-2xl text-xs bg-indigo-50/50 text-center tracking-widest text-lg font-bold">
+                    <button onclick="verifyTeacherPin()" class="w-full py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl text-xs font-bold shadow">دخول المعلمين</button>
+                </div>
+
+                <div id="teacher-sub-content" class="space-y-3 hidden">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div onclick="toggleForm('form-note')" class="bg-gradient-to-br from-sky-400 to-sky-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card cursor-pointer"><i class="fa-solid fa-pen-nib text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">إعطاء الملاحظات</span></div>
+                        <div onclick="toggleForm('form-note')" class="bg-gradient-to-br from-pink-400 to-pink-500 text-white p-3 rounded-2xl shadow-sm text-center kids-card cursor-pointer"><i class="fa-solid fa-book-open-reader text-lg mb-1 block text-yellow-200"></i><span class="text-xs font-bold">تمارين منزلية</span></div>
+                    </div>
+
+                    <div id="form-note" class="bg-white border-2 border-sky-100 p-3 rounded-2xl space-y-2 shadow-sm">
+                        <h4 class="font-bold text-xs text-sky-700">إرسال ملاحظة أو تمرين للطفل</h4>
+                        <input type="text" id="t-child" placeholder="اسم الطفل المعني" class="w-full p-2 border rounded-xl text-xs bg-sky-50/30">
+                        <input type="text" id="t-phone" placeholder="رقم هاتف ولي الأمر المرتبط" class="w-full p-2 border rounded-xl text-xs bg-sky-50/30">
+                        <textarea id="t-note" placeholder="اكتب الملاحظات والتمارين هنا..." class="w-full p-2 border rounded-xl text-xs bg-sky-50/30 h-16"></textarea>
+                        <button onclick="saveTeacherNote()" class="w-full py-2 bg-sky-500 text-white rounded-xl text-xs font-bold">إرسال بالسحابة</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- الفوتر والتنقل السفلي -->
+        <footer class="bg-white border-t-2 border-sky-100 p-2.5 flex justify-around text-xs text-gray-600 shadow-inner relative z-10">
+            <button onclick="goHome()" class="flex flex-col items-center text-sky-500 font-bold hover:text-pink-500 transition">
+                <i class="fa-solid fa-house text-base mb-0.5"></i> الرئيسية
+            </button>
+        </footer>
+    </div>
+
+    <!-- كود ربط وتهيئة Firebase السحابي بصمت -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyAHbrMcR-_gagZuX5Viur-dg9WKHpnoRNE",
+          authDomain: "smart-kids-d02e0.firebaseapp.com",
+          projectId: "smart-kids-d02e0",
+          storageBucket: "smart-kids-d02e0.firebasestorage.app",
+          messagingSenderId: "433383907783",
+          appId: "1:433383907783:web:3b1c7f3bbbcf3bbeec39e2",
+          measurementId: "G-V7HB3GW3NT"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.saveData = async function(colName, dataObj) {
+            for(let k in dataObj) {
+                if(!dataObj[k]) { alert('الرجاء ملء كافة الحقول!'); return; }
+            }
+            try {
+                await addDoc(collection(db, colName), { ...dataObj, timestamp: new Date().toISOString() });
+                alert('تم الحفظ والتحديث في السحابة بنجاح!');
+            } catch(e) {
+                alert('فشل الاتصال بالسحابة.');
+            }
+        };
+
+        window.saveTeacherNote = async function() {
+            const child = document.getElementById('t-child').value.trim();
+            const phone = document.getElementById('t-phone').value.trim();
+            const note = document.getElementById('t-note').value.trim();
+            if(!child || !phone || !note) { alert('الرجاء ملء جميع الحقول!'); return; }
+            try {
+                await addDoc(collection(db, "teacher_notes"), {
+                    child: child, phone: phone, note: note, timestamp: new Date().toISOString()
+                });
+                alert('تم إرسال الملاحظة وحفظها بالسحابة بنجاح!');
+                document.getElementById('t-child').value = "";
+                document.getElementById('t-phone').value = "";
+                document.getElementById('t-note').value = "";
+            } catch(e) {
+                alert('فشل الحفظ.');
+            }
+        };
+
+        window.accessParentDashboard = async function() {
+            const name = document.getElementById('p-child-name').value.trim();
+            const phone = document.getElementById('p-phone').value.trim();
+            if(!name || !phone) { alert('الرجاء إدخال اسم الطفل ورقم الهاتف!'); return; }
+            
+            const resContainer = document.getElementById('parent-result');
+            resContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">جاري البحث عن بيانات طفلك في السحابة...</p>`;
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "teacher_notes"));
+                resContainer.innerHTML = `<h4 class="font-bold text-xs text-sky-900 border-b pb-1">ملاحظات وتمارين البطل (${name}):</h4>`;
+                let found = false;
+                querySnapshot.forEach((doc) => {
+                    let d = doc.data();
+                    if(d.child.includes(name) && d.phone === phone) {
+                        found = true;
+                        resContainer.innerHTML += `
+                            <div class="bg-white p-2.5 rounded-2xl shadow-sm border-2 border-sky-100 text-xs mt-2 space-y-1">
+                                <p class="font-bold text-pink-600 flex items-center"><i class="fa-solid fa-star ml-1 text-yellow-400"></i> نشاط / تمرين جديد:</p>
+                                <p class="text-gray-700 leading-relaxed">${d.note}</p>
+                            </div>
+                        `;
+                    }
+                });
+                if(!found) {
+                    resContainer.innerHTML += `<p class="text-xs text-gray-500 mt-2 text-center">لا توجد ملاحظات جديدة مسجلة لهذا البطل حالياً.</p>`;
+                }
+            } catch(e) {
+                resContainer.innerHTML = `<p class="text-xs text-red-500 text-center">تعذر جلب البيانات.</p>`;
+            }
+        };
+    </script>
+
+    <script>
+        function showPanel(type) {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('panel-parent').classList.add('hidden');
+            document.getElementById('panel-admin').classList.add('hidden');
+            document.getElementById('panel-teacher').classList.add('hidden');
+            document.getElementById('panel-' + type).classList.remove('hidden');
+        }
+        function goHome() {
+            document.getElementById('main-menu').classList.remove('hidden');
+            document.getElementById('panel-parent').classList.add('hidden');
+            document.getElementById('panel-admin').classList.add('hidden');
+            document.getElementById('panel-teacher').classList.add('hidden');
+        }
+        function verifyAdminPin() {
+            const pin = document.getElementById('admin-pin').value;
+            if(pin === "123") {
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-sub-content').classList.remove('hidden');
+            } else {
+                alert('رمز الدخول غير صحيح!');
+            }
+        }
+        function verifyTeacherPin() {
+            const pin = document.getElementById('teacher-pin').value;
+            if(pin === "456") {
+                document.getElementById('teacher-login-box').classList.add('hidden');
+                document.getElementById('teacher-sub-content').classList.remove('hidden');
+            } else {
+                alert('رمز الدخول غير صحيح!');
+            }
+        }
+        function toggleForm(id) {
+            document.getElementById('form-meal').classList.add('hidden');
+            document.getElementById('form-bill').classList.add('hidden');
+            document.getElementById('form-sch').classList.add('hidden');
+            document.getElementById('form-note').classList.add('hidden');
+            document.getElementById(id).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
